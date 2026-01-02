@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NAMMA V2 VIRUNDHU – Restaurant Billing</title>
+
+<style>
+:root{--accent:#ff5722}
+body{
+  margin:0;
+  font-family:"Segoe UI","Roboto",Arial,sans-serif;
+  background:linear-gradient(135deg,#fff1eb,#ace0f9);
+}
+header{
+  background:linear-gradient(to right,#ff512f,#dd2476);
+  color:#fff;padding:20px;text-align:center;
+  position:sticky;top:0;z-index:10;
+}
+.container{
+  display:grid;grid-template-columns:3fr 1.3fr;gap:20px;padding:20px;
+}
+@media(max-width:900px){.container{grid-template-columns:1fr}}
+
+h3{text-align:center;margin-top:30px}
+
+/* MENU */
+.menu{display:flex;flex-wrap:wrap;gap:20px;justify-content:center}
+.card{
+  width:220px;background:#fff;border-radius:18px;padding:15px;
+  text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+.price{color:var(--accent);font-weight:bold}
+button{
+  background:linear-gradient(to right,#ff9800,#ff5722);
+  color:#fff;border:none;padding:8px 16px;border-radius:20px;cursor:pointer;
+}
+
+/* CART */
+.dashboard{
+  background:#fff;border-radius:22px;padding:15px;
+  position:sticky;top:90px;
+}
+.stat{display:flex;justify-content:space-between;margin:8px 0}
+.total{font-weight:700;color:var(--accent);font-size:18px}
+.checkout-btn{width:100%;margin-top:10px}
+.cancel-btn{width:100%;margin-top:8px;background:#777}
+
+/* MODAL */
+.modal{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.6);
+  justify-content:center;align-items:center;z-index:100;
+}
+
+/* BILL */
+.bill{
+  width:420px;background:#fff;border-radius:18px;overflow:hidden;
+}
+.bill-header{
+  background:linear-gradient(to right,#ff9800,#ff5722);
+  color:#fff;text-align:center;padding:15px;
+}
+.bill-body{padding:15px}
+.bill-info{display:flex;justify-content:space-between;font-size:13px}
+.bill-table{width:100%;border-collapse:collapse;margin-top:10px}
+.bill-table th{background:#ffe0b2;padding:6px}
+.bill-table td{
+  padding:6px;text-align:center;
+  border-bottom:1px dashed #ccc;
+}
+.bill-summary div{
+  display:flex;justify-content:space-between;margin:6px 0;
+}
+.bill-summary .grand{
+  font-size:18px;font-weight:700;color:#ff5722;
+  border-top:2px solid #ff5722;padding-top:6px;
+}
+.bill-footer{text-align:center;padding:10px;color:#ff5722}
+.bill-actions{display:flex;gap:10px;padding:10px}
+.bill-actions button{flex:1}
+
+/* FOOTER */
+.footer{
+  margin-top:40px;
+  background:linear-gradient(to right,#ff9800,#ff5722);
+  color:#fff;padding:25px 15px;text-align:center;
+}
+.footer .contact{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:20px;margin:15px 0;
+}
+.footer .box{
+  background:rgba(255,255,255,.15);
+  padding:14px 18px;border-radius:16px;min-width:220px;
+}
+.footer .thanks{margin-top:15px;font-size:15px;font-weight:600}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🍛 NAMMA V2 VIRUNDHU</h1>
+</header>
+
+<div class="container">
+
+<!-- MENU -->
+<div>
+
+<h3>🍛 Main Dishes</h3>
+<div class="menu">
+<div class="card"><h4>Rava Dosa</h4><p class="price">₹80</p><button onclick="addItem('Rava Dosa',80)">Add</button></div>
+<div class="card"><h4>Curd Rice</h4><p class="price">₹90</p><button onclick="addItem('Curd Rice',90)">Add</button></div>
+<div class="card"><h4>Veg Meals</h4><p class="price">₹120</p><button onclick="addItem('Veg Meals',120)">Add</button></div>
+<div class="card"><h4>Paneer Butter Masala</h4><p class="price">₹180</p><button onclick="addItem('Paneer Butter Masala',180)">Add</button></div>
+<div class="card"><h4>Egg Biryani</h4><p class="price">₹180</p><button onclick="addItem('Egg Biryani',180)">Add</button></div>
+<div class="card"><h4>Chicken Biryani</h4><p class="price">₹220</p><button onclick="addItem('Chicken Biryani',220)">Add</button></div>
+<div class="card"><h4>Mutton Biryani</h4><p class="price">₹320</p><button onclick="addItem('Mutton Biryani',320)">Add</button></div>
+</div>
+
+<h3>🔥 Starters</h3>
+<div class="menu">
+<div class="card"><h4>Gobi Manchurian</h4><p class="price">₹140</p><button onclick="addItem('Gobi Manchurian',140)">Add</button></div>
+<div class="card"><h4>Paneer Tikka</h4><p class="price">₹160</p><button onclick="addItem('Paneer Tikka',160)">Add</button></div>
+<div class="card"><h4>Chicken 65</h4><p class="price">₹180</p><button onclick="addItem('Chicken 65',180)">Add</button></div>
+<div class="card"><h4>Chicken Lollipop</h4><p class="price">₹200</p><button onclick="addItem('Chicken Lollipop',200)">Add</button></div>
+</div>
+
+<h3>🥪 Snacks</h3>
+<div class="menu">
+<div class="card"><h4>Samosa</h4><p class="price">₹20</p><button onclick="addItem('Samosa',20)">Add</button></div>
+<div class="card"><h4>Vada</h4><p class="price">₹30</p><button onclick="addItem('Vada',30)">Add</button></div>
+<div class="card"><h4>Bajji</h4><p class="price">₹40</p><button onclick="addItem('Bajji',40)">Add</button></div>
+<div class="card"><h4>Pani Puri</h4><p class="price">₹50</p><button onclick="addItem('Pani Puri',50)">Add</button></div>
+</div>
+
+<h3>🍮 Desserts</h3>
+<div class="menu">
+<div class="card"><h4>Kesari</h4><p class="price">₹50</p><button onclick="addItem('Kesari',50)">Add</button></div>
+<div class="card"><h4>Gulab Jamun</h4><p class="price">₹60</p><button onclick="addItem('Gulab Jamun',60)">Add</button></div>
+<div class="card"><h4>Rasgulla</h4><p class="price">₹70</p><button onclick="addItem('Rasgulla',70)">Add</button></div>
+</div>
+
+<h3>🍹 Drinks</h3>
+<div class="menu">
+<div class="card"><h4>Rose Milk</h4><p class="price">₹55</p><button onclick="addItem('Rose Milk',55)">Add</button></div>
+<div class="card"><h4>Orange Juice</h4><p class="price">₹60</p><button onclick="addItem('Orange Juice',60)">Add</button></div>
+<div class="card"><h4>Pineapple Juice</h4><p class="price">₹65</p><button onclick="addItem('Pineapple Juice',65)">Add</button></div>
+</div>
+
+<h3>🍨 Ice Creams</h3>
+<div class="menu">
+<div class="card"><h4>Vanilla</h4><p class="price">₹80</p><button onclick="addItem('Vanilla',80)">Add</button></div>
+<div class="card"><h4>Strawberry</h4><p class="price">₹85</p><button onclick="addItem('Strawberry',85)">Add</button></div>
+<div class="card"><h4>Chocolate</h4><p class="price">₹90</p><button onclick="addItem('Chocolate',90)">Add</button></div>
+</div>
+
+</div>
+
+<!-- CART -->
+<div class="dashboard">
+<h3>🧾 Cart</h3>
+<div class="stat"><span>Items</span><b id="itemCount">0</b></div>
+<div class="stat"><span>Subtotal</span><b>₹<span id="sub">0</span></b></div>
+<div class="stat"><span>GST (5%)</span><b>₹<span id="gst">0</span></b></div>
+<div class="stat"><span>Service (2%)</span><b>₹<span id="srv">0</span></b></div>
+<div class="stat total"><span>Total</span><span>₹<span id="total">0</span></span></div>
+<button class="checkout-btn" onclick="openBill()">Checkout</button>
+<button class="cancel-btn" onclick="cancelOrder()">❌ Cancel Order</button>
+</div>
+
+</div>
+
+<!-- BILL MODAL -->
+<div class="modal" id="billModal">
+  <div class="bill">
+    <div class="bill-header">
+      <h2>NAMMA V2 VIRUNDHU</h2>
+      <p>Restaurant Bill</p>
+    </div>
+    <div class="bill-body">
+      <div class="bill-info">
+        <span>Date: <span id="billDate"></span></span>
+        <span>Bill No: <span id="billNo"></span></span>
+      </div>
+      <table class="bill-table">
+        <thead><tr><th>Item</th><th>Qty</th><th>Amt</th></tr></thead>
+        <tbody id="billItems"></tbody>
+      </table>
+      <div class="bill-summary">
+        <div><span>Subtotal</span><span>₹<span id="bSub"></span></span></div>
+        <div><span>GST</span><span>₹<span id="bGst"></span></span></div>
+        <div><span>Service</span><span>₹<span id="bSrv"></span></span></div>
+        <div class="grand"><span>Grand Total</span><span>₹<span id="bTotal"></span></span></div>
+      </div>
+    </div>
+    <div class="bill-footer">🙏 Thank you for dining with us!</div>
+    <div class="bill-actions">
+      <button onclick="printBill()">🖨 Print</button>
+      <button style="background:#777" onclick="closeBill()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+<h3>🍛 NAMMA V2 VIRUNDHU</h3>
+<div class="contact">
+  <div class="box">
+    <p><b>📍 Address</b></p>
+    <p>123, Main Road,<br>Coimbatore – 641001</p>
+  </div>
+  <div class="box">
+    <p><b>📞 Contact</b></p>
+    <p>+91 1234567890</p>
+    <p>namma v2 virundhuu@email.com</p>
+  </div>
+</div>
+<p class="thanks">🙏 Thank you for choosing <b>NAMMA V2 VIRUNDHU</b>. Visit again! ❤️</p>
+</div>
+
+<script>
+let cart={};
+function addItem(n,p){cart[n]?cart[n].qty++:cart[n]={price:p,qty:1};updateCart();}
+function updateCart(){
+  let s=0,i=0;
+  for(let k in cart){s+=cart[k].price*cart[k].qty;i+=cart[k].qty}
+  let g=s*0.05,sv=s*0.02;
+  itemCount.innerText=i;
+  sub.innerText=s;
+  gst.innerText=g.toFixed(2);
+  srv.innerText=sv.toFixed(2);
+  total.innerText=(s+g+sv).toFixed(2);
+}
+function cancelOrder(){
+  if(Object.keys(cart).length===0){alert("Cart already empty!");return;}
+  if(confirm("Cancel entire order?")){
+    cart={};updateCart();billModal.style.display="none";
+  }
+}
+function openBill(){
+  if(Object.keys(cart).length===0){alert("Cart is empty!");return;}
+  billItems.innerHTML="";let s=0;
+  for(let k in cart){
+    let amt=cart[k].price*cart[k].qty;
+    s+=amt;
+    billItems.innerHTML+=`<tr><td>${k}</td><td>${cart[k].qty}</td><td>₹${amt}</td></tr>`;
+  }
+  let g=s*0.05,sv=s*0.02;
+  bSub.innerText=s;bGst.innerText=g.toFixed(2);
+  bSrv.innerText=sv.toFixed(2);
+  bTotal.innerText=(s+g+sv).toFixed(2);
+  billDate.innerText=new Date().toLocaleDateString();
+  billNo.innerText=Math.floor(1000+Math.random()*9000);
+  billModal.style.display="flex";
+}
+function closeBill(){billModal.style.display="none";}
+function printBill(){window.print();}
+</script>
+
+</body>
+</html>
